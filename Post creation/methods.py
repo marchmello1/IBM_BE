@@ -1,8 +1,7 @@
 import json
 from copy import deepcopy
 from llama_index.llms.ibm import WatsonxLLM
-from templates.job_template import JOB_TEMPLATE
-from templates.prompt_template import JOB_DESCRIPTION_PROMPT
+from templates import JOB_TEMPLATE, JOB_DESCRIPTION_PROMPT
 
 def generate_job_json(
     api_key: str, 
@@ -56,11 +55,11 @@ def generate_job_json(
         
         title = extract_field(requirements, "Position")
         location = extract_field(requirements, "Location")
-       
+        
+        
         prompt = JOB_DESCRIPTION_PROMPT.format(requirements=requirements)
         description_response = watsonx_llm.complete(prompt)
-        
-        
+       
         job_posting["elements"][0].update({
             "title": title,
             "description": description_response.text.strip(),
